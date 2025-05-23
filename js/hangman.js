@@ -5,15 +5,9 @@ class Hangman {
   #maxAttempts;           // Maximum bad guesses
   #currentAttempts = 0;   // Counter for bad guesses the player has made
 
-  constructor(maxAttempts = 7) {
+  constructor(word, maxAttempts = 7) {
     this.#maxAttempts = maxAttempts;
-    this.#word = this.#getRandomWord();
-  }
-
-  // Private method to get a random word
-  #getRandomWord() {
-    const words = ['DUCK', 'HANDLE', 'MOUSE', 'SPRING', 'FIDDLE', 'THERMALDYNAMICS', 'SONIC', 'MOUNTAIN', 'PUPPET', 'APEX'];
-    return words[Math.floor(Math.random() * words.length)];
+    this.#word = word;
   }
 
   // Method to guess a letter
@@ -59,78 +53,95 @@ class Hangman {
   }
 }
 
-const game = new Hangman();
-
-document.querySelectorAll('.currentWord').forEach(function(element) {
-  element.innerHTML = game.getWord();
+const url = "https://random-word-api.vercel.app/api?words=1";
+fetch(url).then(response => {
+  if ( response.ok ) {
+    response.json().then( words => {
+      startGame(new Hangman(words[0].toUpperCase()));
+    });
+  } else {
+    console.log('sdf');
+  }
+}).catch( error => {
+  console.log('API Error',error);
+  startGame(new Hangman('APEX'.toUpperCase()));
 });
 
-const inputField = document.getElementById("userInput");
-inputField.addEventListener("keyup", function (event) {
+function startGame(game) {
+  console.log('Ssh, the word is', game.getWord());
 
-  if ( game.isWon() || game.isLost() ) {
-    return;
-  }
+  document.querySelectorAll('.currentWord').forEach(function(element) {
+    element.innerHTML = game.getWord();
+  });
 
-  const messageDisplay = document.getElementById('messageDisplay');
-  const messageField   = document.getElementById('message');
-  let   message        = '';
+  const inputField = document.getElementById("userInput");
+  inputField.addEventListener("keyup", function (event) {
 
-  // Reset the message display to none
-  messageDisplay.style.display = 'none';
-
-  // Is it a valid entry?
-  if ( /^[a-zA-Z]$/.test(event.key) ) {
-    if ( game.guess( event.key ) ) {
-      message = "Correct!";
-    } else {
-      message = "Wrong!";
+    if ( game.isWon() || game.isLost() ) {
+      return;
     }
+
+    const messageDisplay = document.getElementById('messageDisplay');
+    const messageField   = document.getElementById('message');
+    let   message        = '';
+
+    // Reset the message display to none
+    messageDisplay.style.display = 'none';
+
+    // Is it a valid entry?
+    if ( /^[a-zA-Z]$/.test(event.key) ) {
+      if ( game.guess( event.key ) ) {
+        message = "Correct!";
+      } else {
+        message = "Wrong!";
+      }
+    }
+
+    // Update the progress display
+    updateWordProgress();
+
+    // Update guessed letters
+    const guessedLetters = document.getElementById('guessedLetters');
+    guessedLetters.innerHTML = game.getGuessedLetters();
+
+    const attemptsLeft = document.getElementById('attemptsLeft');
+    attemptsLeft.innerHTML = 'Attempts Left: ' + game.getAttemptsLeft();
+
+    if ( game.isWon() ) {
+      const hasWon  = document.getElementById('hasWon');
+      hasWon.style.display = 'block';
+
+      // Display some confetti :)
+      // https://github.com/catdad/canvas-confetti?tab=readme-ov-file
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+    if ( game.isLost() ) {
+      const hasLost = document.getElementById('hasLost');
+      hasLost.style.display = 'block';
+    }
+
+    if ( message ) {
+      messageField.innerHTML = message;
+      messageDisplay.style.display = 'block';
+    }
+  });
+
+  function updateWordProgress() {
+    const wordProgress = document.getElementById('wordProgress');
+    wordProgress.innerHTML = game.getWordProgress();
   }
 
-  // Update the progress display
+  // Allow the button to reset the game (by reloading)
+  const resetGame = document.getElementById("resetGame");
+  resetGame.addEventListener("click", function (event) {
+    window.location.reload();
+  });
+
+  // Default state
   updateWordProgress();
 
-  // Update guessed letters
-  const guessedLetters = document.getElementById('guessedLetters');
-  guessedLetters.innerHTML = game.getGuessedLetters();
-
-  const attemptsLeft = document.getElementById('attemptsLeft');
-  attemptsLeft.innerHTML = 'Attempts Left: ' + game.getAttemptsLeft();
-
-  if ( game.isWon() ) {
-    const hasWon  = document.getElementById('hasWon');
-    hasWon.style.display = 'block';
-
-    // Display some confetti :)
-    // https://github.com/catdad/canvas-confetti?tab=readme-ov-file
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
-  }
-  if ( game.isLost() ) {
-    const hasLost = document.getElementById('hasLost');
-    hasLost.style.display = 'block';
-  }
-
-  if ( message ) {
-    messageField.innerHTML = message;
-    messageDisplay.style.display = 'block';
-  }
-});
-
-function updateWordProgress() {
-  const wordProgress = document.getElementById('wordProgress');
-  wordProgress.innerHTML = game.getWordProgress();
 }
-
-// Allow the button to reset the game (by reloading)
-const resetGame = document.getElementById("resetGame");
-resetGame.addEventListener("click", function (event) {
-  window.location.reload();
-});
-
-// Default state
-updateWordProgress();
