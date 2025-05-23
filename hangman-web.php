@@ -36,35 +36,89 @@ if ( isset($_POST['letter']) ) {
             font-size: 2em;
             letter-spacing: 0.2em;
          }
+         .gameoverText {
+            color: red;
+            font-size: 3em;
+         }
+         .rainbowText {
+            font-size: 3em;
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+         }
+         .guessedLetters {
+            font-size: 2em;
+            letter-spacing: 0.2em;
+            color: red;
+         }
       </style>
    </head>
    <body>
-      <h1>Hangman</h1>
-      <h2>Word is: <?= $game->getWord() ?></h2>
-      <div class="wordProgress"><?= $game->getWordProgress() ?></div>
-      <div class="guessedLetters"><?= implode(', ', $game->getGuessedLetters()) ?></div>
-      <div class="attemptsLeft">Attempts Left: <?= $game->getAttemptsLeft() ?></div>
-      <?php if ($message): ?>
-         <div class="alert alert-info"><?= $message ?></div>
-      <?php endif; ?>
-      <?php if ( !$game->isWon() && !$game->isLost() ): ?>
-         <form method="post">
-            <label for="letter">Guessed a letter:</label>
-            <input type="text" name="letter" maxlength="1" required autofocus />
-            <button type="submit" class="btn btn-primary">Guess</button>
-         </form>
-      <?php endif; ?>
-      <?php if ($game->isWon()): ?>
-         <div class="message">Congratulations! You guessed the word: <strong><?= $game->getWord() ?></strong></div>
-       <?php elseif ($game->isLost()): ?>
-         <div class="message wrong">Game over! The word was: <strong><?= $game->getWord() ?></strong></div>
-      <?php endif; ?>
+      <div class="container">
+         <div class="row mt-4">
+            <div class="col text-center">
+               <h1 class="rainbowText">Hangman</h1>
+               <?= isset($_GET['konamicode']) ? "<h2>Current word is: " . $game->getWord() . "</h2>" : "" ?>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col text-center">
+               <div class="wordProgress"><?= $game->getWordProgress() ?></div>
+            </div>
+         </div>
 
-      <form method="post">
-         <button type="submit" name="reset" value="martin" class="btn btn-secondary">
-            Restart Game
-         </button>
-      </form>
+         <div class="row mt-4">
+            <div class="col text-center">
+               <div class="guessedLetters"><?= implode(', ', $game->getGuessedLetters()) ?></div>
+               <div class="attemptsLeft">Attempts Left: <?= $game->getAttemptsLeft() ?></div>
+            </div>
+         </div>
+
+         <?php if ($message && !$game->isWon() ): ?>
+            <div class="row mt-4">
+               <div class="col text-center">
+                  <div class="alert alert-info"><?= $message ?></div>
+               </div>
+            </div>
+         <?php endif; ?>
+         <?php if ( !$game->isWon() && !$game->isLost() ): ?>
+            <div class="row mt-4">
+               <div class="col text-center">
+                  <form method="post">
+                     <label for="letter">Guessed a letter:</label>
+                     <input type="text" name="letter" maxlength="1" required autofocus />
+                     <button type="submit" class="btn btn-primary">Guess</button>
+                  </form>
+               </div>
+            </div>
+         <?php endif; ?>
+
+         <div class="row mt-4">
+            <div class="col text-center">
+               <form method="post">
+                  <button type="submit" name="reset" value="martin" class="btn btn-secondary">
+                     Restart Game
+                  </button>
+               </form>
+            </div>
+         </div>
+
+         <?php if ($game->isWon()): ?>
+            <div class="row mt-4">
+               <div class="col text-center rainbowText">
+                  Congratulations! You guessed the word: <strong><?= $game->getWord() ?></strong>
+               </div>
+            </div>
+         <?php elseif ($game->isLost()): ?>
+            <div class="row mt-4">
+               <div class="col text-center gameoverText">
+                  Game over! The word was: <strong><?= $game->getWord() ?></strong>
+               </div>
+            </div>
+         <?php endif; ?>
+
+
+      </div>
 
 
    </body>
