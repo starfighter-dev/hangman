@@ -2,7 +2,7 @@
 session_start();
 require_once 'Hangman.php';
 
-if ( !isset($_SESSION['game']) ) {
+if ( !isset($_SESSION['game']) || isset($_POST['reset']) ) {
    $_SESSION['game'] = serialize(new Hangman());
 }
 
@@ -13,6 +13,8 @@ if ( isset($_POST['letter']) ) {
    $input = strtoupper(trim($_POST['letter']));
    if ( strlen($input) !== 1 || !ctype_alpha($input) ) {
       $message = "Please enter a single letter.";
+   } elseif ( in_array($input, $game->getGuessedLetters()) ) {
+      $message = "You already guessed '$input'.";
    } else {
       if ( $game->guess($input) ) {
          $message = "Correct!";
@@ -41,6 +43,9 @@ if ( isset($_POST['letter']) ) {
       <h2>Word is: <?= $game->getWord() ?></h2>
       <div class="wordProgress"><?= $game->getWordProgress() ?></div>
       <div class="guessedLetters"><?= implode(', ', $game->getGuessedLetters()) ?></div>
+      <?php if ($message): ?>
+         <div class="alert alert-info"><?= $message ?></div>
+      <?php endif; ?>
       <?php if ( !$game->isWon() && !$game->isLost() ): ?>
          <form method="post">
             <label for="letter">Guessed a letter:</label>
@@ -53,6 +58,13 @@ if ( isset($_POST['letter']) ) {
        <?php elseif ($game->isLost()): ?>
          <div class="message wrong">Game over! The word was: <strong><?= $game->getWord() ?></strong></div>
       <?php endif; ?>
+
+      <form method="post">
+         <button type="submit" name="reset" value="martin" class="btn btn-secondary">
+            Restart Game
+         </button>
+      </form>
+
 
    </body>
 </html>
