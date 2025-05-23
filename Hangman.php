@@ -12,6 +12,22 @@ class Hangman {
             $this->word        = $this->getRandomWord();
         }
 
+        // A user has given us a character to try, return success or failure
+        public function guess(string $letter): bool {
+            $letter = strtoupper($letter);
+
+            // They already guessed this one, give them a free pass
+            if ( in_array($letter, $this->guessedLetters) ) {
+                return false;
+            }
+            $this->guessedLetters[] = $letter;
+            if ( strpos($this->word, $letter) === false ) {
+                $this->currentAttempts++;
+                return false;
+            }
+            return true; // woot.
+        }
+
         // Has the game been won?
         public function isWon(): bool {
             return false;
