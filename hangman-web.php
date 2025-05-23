@@ -70,7 +70,7 @@ if ( isset($_POST['letter']) ) {
          <div class="row mt-4">
             <div class="col text-center">
                <div class="guessedLetters"><?= implode(', ', $game->getGuessedLetters()) ?></div>
-               <div class="attemptsLeft">Attempts Left: <?= $game->getAttemptsLeft() ?></div>
+               <div class="attemptsLeft mt-2">Attempts Left: <?= $game->getAttemptsLeft() ?></div>
             </div>
          </div>
 
