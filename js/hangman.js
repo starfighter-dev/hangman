@@ -83,6 +83,10 @@ document.querySelectorAll('.currentWord').forEach(function(element) {
 const inputField = document.getElementById("userInput");
 inputField.addEventListener("keyup", function (event) {
 
+  if ( game.isWon() || game.isLost() ) {
+    return;
+  }
+
   const messageDisplay = document.getElementById('messageDisplay');
   const messageField   = document.getElementById('message');
   let   message        = '';
@@ -130,20 +134,11 @@ function updateWordProgress() {
   wordProgress.innerHTML = game.getWordProgress();
 }
 
-function reset() {
-  const messageDisplay = document.getElementById('messageDisplay');
-  messageDisplay.style.display = 'none';
-  
-  const hasWon  = document.getElementById('hasWon');
-  const hasLost = document.getElementById('hasLost');
-  hasWon.style.display = 'none';
-  hasLost.style.display = 'none';
-
-  updateWordProgress();
-}
+// Allow the button to reset the game (by reloading)
+const resetGame = document.getElementById("resetGame");
+resetGame.addEventListener("click", function (event) {
+  window.location.reload();
+});
 
 // Default state
-reset();
-
-
-
+updateWordProgress();

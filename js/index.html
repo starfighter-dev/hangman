@@ -61,20 +61,18 @@
 
          <div class="row mt-4">
             <div class="col text-center">
-               <form method="post">
-                  <button type="submit" name="reset" value="martin" class="btn btn-secondary">
-                     Restart Game
-                  </button>
-               </form>
+               <button type="button" id="resetGame" class="btn btn-secondary">
+                  Restart Game
+               </button>
             </div>
          </div>
 
-         <div class="row mt-4" id="hasWon">
+         <div class="row mt-4" id="hasWon" style="display:none;">
             <div class="col text-center rainbowText">
                Congratulations! You guessed the word: <strong class="currentWord"></strong>
             </div>
          </div>
-         <div class="row mt-4" id="hasLost">
+         <div class="row mt-4" id="hasLost" style="display:none;">
             <div class="col text-center gameoverText">
                Game over! The word was: <strong class="currentWord"></strong>
             </div>
