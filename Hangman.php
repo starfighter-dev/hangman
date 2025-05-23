@@ -53,9 +53,15 @@ class Hangman {
         public function getWordProgress(): string {
             $progress = '';
             foreach (str_split($this->word) as $char) {
-                $progress .= "_ ";
+                $progress .= in_array($char, $this->guessedLetters) ? $char : "_";
+                $progress .= ' ';
             }
             return trim($progress);
+        }
+
+        // Allow the word to be returned so I can cheat in the client for now
+        public function getWord(): string {
+            return $this->word;
         }
 
         // Return a random word. TODO: Get a list from a dictionary file or API
