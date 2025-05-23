@@ -1,8 +1,27 @@
 <?php
+session_start();
 require_once 'Hangman.php';
 
-$game = new Hangman();
+if ( !isset($_SESSION['game']) ) {
+   $_SESSION['game'] = serialize(new Hangman());
+}
 
+$game = unserialize($_SESSION['game']);
+
+$message = '';
+if ( isset($_POST['letter']) ) {
+   $input = strtoupper(trim($_POST['letter']));
+   if ( strlen($input) !== 1 || !ctype_alpha($input) ) {
+      $message = "Please enter a single letter.";
+   } else {
+      if ( $game->guess($input) ) {
+         $message = "Correct!";
+      } else {
+         $message = "Wrong!";
+      }
+   }
+   $_SESSION['game'] = serialize($game);
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -19,6 +38,7 @@ $game = new Hangman();
    </head>
    <body>
       <h1>Hangman</h1>
+      <h2>Word is: <?= $game->getWord() ?></h2>
       <div class="wordProgress"><?= $game->getWordProgress() ?></div>
       <div class="guessedLetters"><?= implode(', ', $game->getGuessedLetters()) ?></div>
       <?php if ( !$game->isWon() && !$game->isLost() ): ?>
