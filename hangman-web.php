@@ -43,6 +43,7 @@ if ( isset($_POST['letter']) ) {
          .rainbowText {
             font-size: 3em;
             background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
          }

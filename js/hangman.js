@@ -35,13 +35,7 @@ class Hangman {
   }
 
   isWon() {
-    let hasWon = true;
-    [...this.#word].forEach(letter => {
-      if (!this.#guessedLetters.includes(letter)) {
-        hasWon = false;
-      }
-    });
-    return hasWon;
+    return [...this.#word].every(letter => this.#guessedLetters.includes(letter));
   }
 
   isLost() {
@@ -57,16 +51,7 @@ class Hangman {
   }
 
   getWordProgress() {
-    let progressStr = '';
-    [...this.#word].forEach(letter => {
-      if (this.#guessedLetters.includes(letter)) {
-        progressStr += letter;
-      } else {
-        progressStr += '_';
-      }
-      progressStr += ' ';
-    });
-    return progressStr.trimEnd();
+    return [...this.#word].map(letter => (this.#guessedLetters.includes(letter) ? letter : '_')).join('');
   }
 
   getWord() {
