@@ -12,6 +12,16 @@ class Hangman {
             $this->word        = $this->getRandomWord();
         }
 
+        // Has the game been won?
+        public function isWon(): bool {
+            return false;
+        }
+
+        // Has the game been lost?
+        public function isLost(): bool {
+            return $this->currentAttempts >= $this->maxAttempts;
+        }
+
         // Return the number of attempts remaining for the client
         public function getAttemptsLeft(): int {
             return $this->maxAttempts - $this->currentAttempts;
