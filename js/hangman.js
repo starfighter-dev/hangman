@@ -116,9 +116,16 @@ inputField.addEventListener("keyup", function (event) {
   if ( game.isWon() ) {
     const hasWon  = document.getElementById('hasWon');
     hasWon.style.display = 'block';
+
+    // Display some confetti :)
+    // https://github.com/catdad/canvas-confetti?tab=readme-ov-file
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
   }
   if ( game.isLost() ) {
-    alert('here');
     const hasLost = document.getElementById('hasLost');
     hasLost.style.display = 'block';
   }
