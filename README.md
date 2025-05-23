@@ -11,6 +11,8 @@ A simple Hangman game
 
 ## Implementation
 
+A random word is retreived from an API. If that API is non-op, we defer to a list of predefined words.
+
 ### PHP CLI Mode
 
 A simple cli runner for the game.
@@ -25,5 +27,9 @@ This uses the same Hangman code from the cli version, but now presented in the f
 
 - [Hangman PHP Web Version](https://www.starfighter.dev/hangman/hangman-web.php)
 
-The will use simple form posts and probably utlise Session for state.
+This uses simple form posts, and session to hold the game state.
+
+Note that it's possible to pass in a GET parameter in order to cheat (or debug):
+
+    hangman-web.php?konamicode=1
 

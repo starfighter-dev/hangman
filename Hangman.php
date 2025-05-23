@@ -70,9 +70,20 @@ class Hangman {
             return $this->word;
         }
 
-        // Return a random word. TODO: Get a list from a dictionary file or API
+        // Return a random word. Try to hit an API..
         private function getRandomWord(): string {
-            $words = [
+
+            $apiUrl = 'https://random-word-api.vercel.app/api?words=1';
+            $response = @file_get_contents($apiUrl);
+            if ($response !== false) {
+                $words = json_decode($response);
+                if (is_array($words) && isset($words[0]) && is_string($words[0])) {
+                    return strtoupper($words[0]);
+                }
+            }
+
+            // Uhoh, something went wrong, so fall back on these:
+            $fallbackWords = [
                 'DUCK',
                 'HANDLE',
                 'MOUSE',
@@ -81,10 +92,11 @@ class Hangman {
                 'THERMALDYNAMICS',
                 'SONIC',
                 'MOUNTAIN',
-                'PUPPET'
+                'PUPPET',
+                'APEX'
             ];
 
-            return $words[array_rand($words, 1)];
+            return $fallbackWords[array_rand($fallbackWords, 1)];
         }
 
 }
