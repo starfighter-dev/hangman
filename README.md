@@ -33,3 +33,10 @@ Note that it's possible to pass in a GET parameter in order to cheat (or debug):
 
     hangman-web.php?konamicode=1
 
+### JavaScript Based Web Mode
+
+The PHP was ported into JavaScript. Can be hosted somewhere, or accessed through the following link:
+
+- [Hangman JavaScript Web Version](https://www.starfighter.dev/hangman/js/index.html)
+
+This version uses the same (very, very beautiful) styling of the PHP Web version.
