@@ -43,6 +43,7 @@ if ( isset($_POST['letter']) ) {
       <h2>Word is: <?= $game->getWord() ?></h2>
       <div class="wordProgress"><?= $game->getWordProgress() ?></div>
       <div class="guessedLetters"><?= implode(', ', $game->getGuessedLetters()) ?></div>
+      <div class="attemptsLeft">Attempts Left: <?= $game->getAttemptsLeft() ?></div>
       <?php if ($message): ?>
          <div class="alert alert-info"><?= $message ?></div>
       <?php endif; ?>
