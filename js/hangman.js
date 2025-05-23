@@ -36,7 +36,7 @@ class Hangman {
 
   isWon() {
     let hasWon = true;
-    [...this.word].forEach(letter => {
+    [...this.#word].forEach(letter => {
       if (!this.#guessedLetters.includes(letter)) {
         hasWon = false;
       }
@@ -45,7 +45,7 @@ class Hangman {
   }
 
   isLost() {
-    return this.#currentAttempts >= this.maxAttempts;
+    return this.#currentAttempts >= this.#maxAttempts;
   }
 
   getGuessedLetters() {
@@ -109,11 +109,14 @@ inputField.addEventListener("keyup", function (event) {
   const attemptsLeft = document.getElementById('attemptsLeft');
   attemptsLeft.innerHTML = 'Attempts Left: ' + game.getAttemptsLeft();
 
-  if ( game.hasWon ) {
-
+  if ( game.isWon() ) {
+    const hasWon  = document.getElementById('hasWon');
+    hasWon.style.display = 'block';
   }
-  if ( game.hasLost ) {
-
+  if ( game.isLost() ) {
+    alert('here');
+    const hasLost = document.getElementById('hasLost');
+    hasLost.style.display = 'block';
   }
 
   if ( message ) {
@@ -127,8 +130,20 @@ function updateWordProgress() {
   wordProgress.innerHTML = game.getWordProgress();
 }
 
+function reset() {
+  const messageDisplay = document.getElementById('messageDisplay');
+  messageDisplay.style.display = 'none';
+  
+  const hasWon  = document.getElementById('hasWon');
+  const hasLost = document.getElementById('hasLost');
+  hasWon.style.display = 'none';
+  hasLost.style.display = 'none';
+
+  updateWordProgress();
+}
+
 // Default state
-updateWordProgress();
+reset();
 
 
 
