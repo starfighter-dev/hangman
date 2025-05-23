@@ -30,7 +30,13 @@ class Hangman {
 
         // Has the game been won?
         public function isWon(): bool {
-            return false;
+            // Does every letter of the word exist in the guessedLetters array?
+            foreach ( str_split($this->word) as $char ) {
+                if ( !in_array($char, $this->guessedLetters)) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         // Has the game been lost?
