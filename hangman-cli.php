@@ -6,7 +6,8 @@ $game = new Hangman();
 
 print "Welcome to Hangman!\n";
 
-print "\nThe word is: " . $game->getWord() . "\n";
+// Konami Code Mode:
+//print "\nThe word is: " . $game->getWord() . "\n";
 
 // A game loop
 while (!$game->isWon() && !$game->isLost()) {
@@ -24,15 +25,15 @@ while (!$game->isWon() && !$game->isLost()) {
     }
 
     if ( $game->guess($input) ) {
-        echo "Correct!\n";
+        echo "\nCorrect!\n";
     } else {
-        echo "Wrong!\n";
+        echo "\nWrong!\n";
     }
 }
 
 if ( $game->isWon() ) {
-    print "Congratulations!\n";
+    print "\nCongratulations! You guessed the word: " . $game->getWord() . "\n";
 } else {
-    print "Sorry, you lost.\n";
+    print "\nGame over! The word was: " . $game->getWord() . "\n";
 }
 

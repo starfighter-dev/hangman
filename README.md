@@ -11,11 +11,11 @@ A simple Hangman game
 
 ## Implementation
 
-Starting with a PHP based game, with a simple cli runner.
+### PHP CLI Mode
 
-The client needs to display some info:
+A simple cli runner for the game.
 
-- Progress of current word
-- Letters that have already been guessed
-- How many attempts are remaining
+    php hangman-cli.php
+
+A game loop is started, and a player can play a game of Hangman.
 
