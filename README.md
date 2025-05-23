@@ -12,3 +12,10 @@ A simple Hangman game
 ## Implementation
 
 Starting with a PHP based game, with a simple cli runner.
+
+The client needs to display some info:
+
+- Progress of current word
+- Letters that have already been guessed
+- How many attempts are remaining
+
