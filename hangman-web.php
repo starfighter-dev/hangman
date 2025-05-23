@@ -85,7 +85,7 @@ if ( isset($_POST['letter']) ) {
             <div class="row mt-4">
                <div class="col text-center">
                   <form method="post">
-                     <label for="letter">Guessed a letter:</label>
+                     <label for="letter">Guess a letter:</label>
                      <input type="text" name="letter" maxlength="1" required autofocus />
                      <button type="submit" class="btn btn-primary">Guess</button>
                   </form>
