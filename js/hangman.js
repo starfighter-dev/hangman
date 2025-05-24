@@ -128,6 +128,9 @@ function startGame(game) {
       messageField.innerHTML = message;
       messageDisplay.style.display = 'block';
     }
+
+    // Clear out the text field
+    this.value = '';
   });
 
   function updateWordProgress() {
